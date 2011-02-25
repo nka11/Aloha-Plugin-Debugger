@@ -10,10 +10,27 @@ jQuery.extend(true,DebuggerPlugin,{
 		 */
 		init: function() {
 			var that = this;
-			jQuery('body').append('<div id="NKA_debugger"></div>');
+			jQuery('body').append('<div id="NKA_debugger"><div id="NKA_debug_editable"></div><div id="NKA_debug_tabs"></div><div id="NKA_debug_console"></div></div>');
+			jQuery('#NKA_debug_tabs').append('<ul><li><a href="#NKA_range_tree_console">SelectionRange</a></li><li><a href="#NKA_debug_console">Log Console</a></li></ul>');
+			jQuery('#NKA_debug_tabs').append('<div id="NKA_range_tree_console">No SelectionRange</div><div id="NKA_debug_console"></div>');
+			jQuery('#NKA_debug_console').prepend('<div id="NKA_info_checkbox"><input type="checkbox" value="debug" />DEBUG<input type="checkbox" value="info" />INFO<input type="checkbox" value="warn" />WARN<input type="checkbox" value="error" />ERROR</div>');
+			jQuery('#NKA_info_checkbox :checkbox').change(function(event) {
+					var el = jQuery(this);
+					GENTICS.Aloha.settings.logLevels[el.attr("value")] = el.attr("checked");
+					}
+				);
 			jQuery('#NKA_debugger').dialog({'title': 'Aloha debugger window'});
+			jQuery('#NKA_debug_tabs').tabs();
 			GENTICS.Aloha.EventRegistry.subscribe(GENTICS.Aloha, 'selectionChanged', function(event, rangeObject) {
-				jQuery('#NKA_debugger').empty().append(that.renderRangeTree(rangeObject.getRangeTree()));
+				jQuery('#NKA_range_tree_console').empty().append(that.renderRangeTree(rangeObject.getRangeTree()));
+				jQuery('#NKA_debug_editable').empty().append(GENTICS.Aloha.activeEditable.getId());
+//				var logHistory = GENTICS.Aloha.Log.getLogHistory();
+//				var len = logHistory.length;
+//				jQuery('#NKA_debug_items').empty();
+//				while(--len >= 0) {
+//					jQuery('#NKA_debug_items').prepend('<li>'+logHistory[len].level + ":" + logHistory[len].message+'</li>');					
+//				}
+//				logHistory.flush();
 			});
 		},
 		renderRangeTree: function(tree) {
