@@ -11,6 +11,7 @@ jQuery.extend(true,DebuggerPlugin,{
 		init: function() {
 			var that = this;
 			jQuery('body').append('<div id="NKA_debugger"></div>');
+			jQuery('#NKA_debugger').dialog({'title': 'Aloha debugger window'});
 			GENTICS.Aloha.EventRegistry.subscribe(GENTICS.Aloha, 'selectionChanged', function(event, rangeObject) {
 				jQuery('#NKA_debugger').empty().append(that.renderRangeTree(rangeObject.getRangeTree()));
 			});
