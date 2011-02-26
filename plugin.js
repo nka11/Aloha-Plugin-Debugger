@@ -23,7 +23,7 @@ jQuery.extend(true,DebuggerPlugin,{
 			jQuery('#NKA_debug_tabs').tabs();
 			GENTICS.Aloha.EventRegistry.subscribe(GENTICS.Aloha, 'selectionChanged', function(event, rangeObject) {
 				jQuery('#NKA_range_tree_console').empty().append(that.renderRangeTree(rangeObject.getRangeTree()));
-				jQuery('#NKA_debug_editable').empty().append(GENTICS.Aloha.activeEditable.getId());
+				jQuery('#NKA_debug_editable').empty().append('<nav/>').append(GENTICS.Aloha.activeEditable.getId());
 //				var logHistory = GENTICS.Aloha.Log.getLogHistory();
 //				var len = logHistory.length;
 //				jQuery('#NKA_debug_items').empty();
@@ -35,34 +35,35 @@ jQuery.extend(true,DebuggerPlugin,{
 		},
 		renderRangeTree: function(tree) {
 			var that = this;
-			if (tree) {
-				var list = jQuery('<ul></ul>');
+			if (tree && tree.length != 0) {
+				var list = jQuery('<div style="padding-left: 1em;"/>');
 				jQuery.each(tree, function(index, item) {
 					if (item.type == 'none') {
 						return true;
 					}
-					var li = jQuery('<li></li>');
-					list.append(li);
 					if (item.domobj) {
+						var li = jQuery('<a href="#"/>');
+						list.append(jQuery('<h3/>').append(li));
 						var text = item.domobj.nodeName + ' (' + item.type + ') ';
 						li.text(text);
 						if (item.domobj.nodeType == 3) {
-							var i = jQuery('<i></i>');
+							var i = jQuery('<p style="margin-left: 1em;"/>');
 							if (item.type == 'partial') {
 								i.text(item.domobj.nodeValue.substring(item.startOffset, item.endOffset));
 							} else {
 								i.text(item.domobj.nodeValue);
 							}
-							li.append(i);
+							list.append(jQuery('<div/>').append(i));
 						}
 						var sub = that.renderRangeTree(item.children);
 						if (sub) {
-							li.append(sub);
+							list.append(sub);
 						}
+					} else {
+						return true;
 					}
-				});
-
-				return list;
+					});
+				return list; //.accordion({ collapsible: true, autoHeight: false });
 			}
 		}
 		
