@@ -14,7 +14,7 @@ jQuery.extend(true,DebuggerPlugin,{
 					+ 'plugins/me.nka.aloha.Debugger/css/jquery.treeview.css" />');
 			jQuery('head').append('<script type="text/javascript" src="' 
 					+ GENTICS.Aloha.settings.base 
-					+ 'plugins/me.nka.aloha.Debugger/lib/jquery.treeview.js"></script>');
+					+ 'plugins/me.nka.aloha.Debugger/lib/treeview/jquery.treeview.js"></script>');
 			var that = this;
 			jQuery('body').append('<div id="NKA_debugger"><div id="NKA_debug_editable"></div><div id="NKA_debug_tabs"></div><div id="NKA_debug_console"></div></div>');
 			jQuery('#NKA_debug_tabs').append('<ul><li><a href="#NKA_range_tree_console">SelectionRange</a></li><li><a href="#NKA_debug_console">Log Console</a></li></ul>');

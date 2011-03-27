@@ -1,0 +1,3 @@
+[submodule "lib/treeview"]
+	path = lib/treeview
+	url = http://github.com/nka11/jquery-treeview
